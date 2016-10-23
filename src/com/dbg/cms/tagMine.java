@@ -48,7 +48,7 @@ public class tagMine {
 			List<String> valuesT1 = Arrays.asList(user);
 			Filter filter1 = new Filter("tag:Creator", valuesT1);
 
-			System.out.println("===== Instances =====");
+			System.out.println("===== Instances created by " + user + " =====");
 			DescribeInstancesRequest requestInstance = new DescribeInstancesRequest();
 			DescribeInstancesResult resultInstances = ec2.describeInstances(requestInstance.withFilters(filter1));
 			List<Reservation> reservations = resultInstances.getReservations();
@@ -65,54 +65,54 @@ public class tagMine {
 					}
 					System.out.println();
 				}
-
-				System.out.println("===== Volumes =====");
-				DescribeVolumesRequest requestVolumes = new DescribeVolumesRequest();
-				DescribeVolumesResult resultVolumes = ec2.describeVolumes(requestVolumes.withFilters(filter1));
-				List<Volume> volumes = resultVolumes.getVolumes();
-				for (Volume volume : volumes) {
-					System.out.print(volume.getVolumeId());
-					allRessources.add(volume.getVolumeId());
-					List<Tag> tags = volume.getTags();
-					for (Tag tag : tags) {
-						String key = tag.getKey();
-						String value = tag.getValue();
-						System.out.print(", " + key + ": " + value);
-					}
-					System.out.println();
+			}
+			
+			System.out.println("===== Volumes created by " + user + " =====");
+			DescribeVolumesRequest requestVolumes = new DescribeVolumesRequest();
+			DescribeVolumesResult resultVolumes = ec2.describeVolumes(requestVolumes.withFilters(filter1));
+			List<Volume> volumes = resultVolumes.getVolumes();
+			for (Volume volume : volumes) {
+				System.out.print(volume.getVolumeId());
+				allRessources.add(volume.getVolumeId());
+				List<Tag> tags = volume.getTags();
+				for (Tag tag : tags) {
+					String key = tag.getKey();
+					String value = tag.getValue();
+					System.out.print(", " + key + ": " + value);
 				}
-
-				System.out.println("===== Network ACLs =====");
-				DescribeNetworkAclsRequest describeNetworkAclsRequest = new DescribeNetworkAclsRequest();
-				DescribeNetworkAclsResult resultNetworkAcls = ec2.describeNetworkAcls(describeNetworkAclsRequest.withFilters(filter1));
-				List<NetworkAcl> networkAcls = resultNetworkAcls.getNetworkAcls();
-				for (NetworkAcl networkAcl : networkAcls) {
-					System.out.print(networkAcl.getNetworkAclId());
-					allRessources.add(networkAcl.getNetworkAclId());
-					List<Tag> tags = networkAcl.getTags();
-					for (Tag tag : tags) {
-						String key = tag.getKey();
-						String value = tag.getValue();
-						System.out.print(", " + key + ": " + value);
-					}
-					System.out.println();
+				System.out.println();
+			}
+			
+			System.out.println("===== Network ACLs created by " + user + " =====");
+			DescribeNetworkAclsRequest describeNetworkAclsRequest = new DescribeNetworkAclsRequest();
+			DescribeNetworkAclsResult resultNetworkAcls = ec2.describeNetworkAcls(describeNetworkAclsRequest.withFilters(filter1));
+			List<NetworkAcl> networkAcls = resultNetworkAcls.getNetworkAcls();
+			for (NetworkAcl networkAcl : networkAcls) {
+				System.out.print(networkAcl.getNetworkAclId());
+				allRessources.add(networkAcl.getNetworkAclId());
+				List<Tag> tags = networkAcl.getTags();
+				for (Tag tag : tags) {
+					String key = tag.getKey();
+					String value = tag.getValue();
+					System.out.print(", " + key + ": " + value);
 				}
+				System.out.println();
+			}
 
-				System.out.println("===== Network Interfaces =====");
-				DescribeNetworkInterfacesRequest describeNetworkInterfacesRequest = new DescribeNetworkInterfacesRequest();
-				DescribeNetworkInterfacesResult resultNetworkInterfaces = ec2.describeNetworkInterfaces(describeNetworkInterfacesRequest.withFilters(filter1));
-				List<NetworkInterface> networkInterfaces = resultNetworkInterfaces.getNetworkInterfaces();
-				for (NetworkInterface networkInterface : networkInterfaces) {
-					System.out.print(networkInterface.getNetworkInterfaceId());
-					allRessources.add(networkInterface.getNetworkInterfaceId());
-					List<Tag> tags = networkInterface.getTagSet();
-					for (Tag tag : tags) {
-						String key = tag.getKey();
-						String value = tag.getValue();
-						System.out.print(", " + key + ": " + value);
-					}
-					System.out.println();
+			System.out.println("===== Network Interfaces created by " + user + " =====");
+			DescribeNetworkInterfacesRequest describeNetworkInterfacesRequest = new DescribeNetworkInterfacesRequest();
+			DescribeNetworkInterfacesResult resultNetworkInterfaces = ec2.describeNetworkInterfaces(describeNetworkInterfacesRequest.withFilters(filter1));
+			List<NetworkInterface> networkInterfaces = resultNetworkInterfaces.getNetworkInterfaces();
+			for (NetworkInterface networkInterface : networkInterfaces) {
+				System.out.print(networkInterface.getNetworkInterfaceId());
+				allRessources.add(networkInterface.getNetworkInterfaceId());
+				List<Tag> tags = networkInterface.getTagSet();
+				for (Tag tag : tags) {
+					String key = tag.getKey();
+					String value = tag.getValue();
+					System.out.print(", " + key + ": " + value);
 				}
+				System.out.println();
 			}
 		}
 		System.out.println(allRessources);
